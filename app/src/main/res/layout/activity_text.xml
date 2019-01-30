@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TextActivity">
 
-    <TextView
+    <ImageView
+        android:src="@drawable/test_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Converted text will be shown here!"
+        android:layout_height="300dp" />
+
+    <TextView
+        android:id="@+id/displayed_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
