@@ -20,6 +20,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
+import java.io.FileInputStream;
 import java.util.List;
 
 public class TextActivity extends AppCompatActivity {
@@ -38,8 +39,16 @@ public class TextActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.displayed_text);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.test_image);
+        //solution found from StackOverFlow
+        Bitmap bitmap = null;
+        String filename = getIntent().getStringExtra("image");
+        try {
+            FileInputStream is = this.openFileInput(filename);
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(bitmap!=null)
         {
@@ -75,13 +84,6 @@ public class TextActivity extends AppCompatActivity {
                                         }
                                     });
 
-
-
-            /*//build the String
-            *//*sb.append(" ");
-            sb.append();*//*
-            textView.setText(sb);
-*/
 
         }
         else
