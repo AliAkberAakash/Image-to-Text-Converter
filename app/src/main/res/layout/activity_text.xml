@@ -8,11 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".TextActivity">
 
-    <ImageView
-        android:src="@drawable/test_image"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
-
     <TextView
         android:id="@+id/displayed_text"
         android:layout_width="match_parent"
