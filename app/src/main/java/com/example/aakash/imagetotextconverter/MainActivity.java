@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -55,10 +56,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(savedInstanceState!=null)
         {
-            imageView.setVisibility(View.VISIBLE);
-            promptText.setVisibility(View.GONE);
-            cancelButton.setClickable(true);
-
             //get the image from savedInstanceState
             String filename = savedInstanceState.getString("imageResource");
             try {
@@ -69,7 +66,15 @@ public class MainActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
+            imageView.setVisibility(savedInstanceState.getInt("imageViewVisibility"));
+            promptText.setVisibility(savedInstanceState.getInt("promptTextVisibility"));
+
         }
+        /*else {
+            imageView.setVisibility(View.GONE);
+            promptText.setVisibility(View.VISIBLE);
+        }*/
 
     }
 
@@ -162,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         if(imageView.getDrawable()!=null) {
             imageView.setVisibility(View.GONE);
             promptText.setVisibility(View.VISIBLE);
-            imageView.setImageDrawable(null);
+            //imageView.setImageDrawable(null);
         }
         else
         {
@@ -176,7 +181,11 @@ public class MainActivity extends AppCompatActivity {
 
         try
         {
-            outState.putString("imageResource", bitmapToFile(receivedImage));
+            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            outState.putString("imageResource", bitmapToFile(bitmap));
+            outState.putInt("imageViewVisibility", imageView.getVisibility());
+            outState.putInt("promptTextVisibility", promptText.getVisibility());
         }
         catch (Exception e)
         {
