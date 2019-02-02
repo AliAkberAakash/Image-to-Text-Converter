@@ -42,17 +42,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
-        <ImageButton
-            android:onClick="onCancelClick"
-            android:background="@drawable/roundcorner"
-            android:layout_weight="1"
-            android:id="@+id/cancel"
-            android:layout_height="0dp"
-            android:layout_width="@dimen/buttonHeight"
-            android:src="@drawable/ic_cancel"
-            android:layout_margin="8dp"
-            />
-
 
         <ImageButton
             android:background="@drawable/roundcorner"
@@ -86,6 +75,17 @@
             android:src="@drawable/ic_next"
             android:layout_margin="8dp"
             android:onClick="onNextClick"
+            />
+
+        <ImageButton
+            android:onClick="onCancelClick"
+            android:background="@drawable/roundcorner"
+            android:layout_weight="1"
+            android:id="@+id/cancel"
+            android:layout_height="0dp"
+            android:layout_width="@dimen/buttonHeight"
+            android:src="@drawable/ic_cancel"
+            android:layout_margin="8dp"
             />
 
     </LinearLayout>
