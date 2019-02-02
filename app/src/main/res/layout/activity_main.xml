@@ -24,13 +24,16 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:onClick="onCancelClick"
+            android:clickable="false"
             android:background="#000"
             android:layout_weight="1"
             android:id="@+id/cancel"
             android:layout_width="0dp"
             android:layout_height="@dimen/buttonHeight"
             android:src="@drawable/ic_cancel"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            />
 
 
         <ImageButton
@@ -41,6 +44,7 @@
             android:layout_height="@dimen/buttonHeight"
             android:src="@drawable/ic_gallery"
             android:layout_margin="8dp"
+            android:onClick="onGalleryCLick"
             />
 
         <ImageButton
@@ -55,6 +59,7 @@
 
 
         <ImageButton
+            android:clickable="false"
             android:background="#000"
             android:layout_weight="1"
             android:id="@+id/next"
