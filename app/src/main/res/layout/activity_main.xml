@@ -39,7 +39,7 @@
         <ImageButton
             android:onClick="onCancelClick"
             android:clickable="false"
-            android:background="#000"
+            android:background="@drawable/roundcorner"
             android:layout_weight="1"
             android:id="@+id/cancel"
             android:layout_width="0dp"
@@ -50,7 +50,7 @@
 
 
         <ImageButton
-            android:background="#000"
+            android:background="@drawable/roundcorner"
             android:id="@+id/gallery"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -61,7 +61,7 @@
             />
 
         <ImageButton
-            android:background="#000"
+            android:background="@drawable/roundcorner"
             android:id="@+id/capture"
             android:layout_weight="1"
             android:layout_width="0dp"
@@ -73,7 +73,7 @@
 
         <ImageButton
             android:clickable="false"
-            android:background="#000"
+            android:background="@drawable/roundcorner"
             android:layout_weight="1"
             android:id="@+id/next"
             android:layout_width="0dp"
