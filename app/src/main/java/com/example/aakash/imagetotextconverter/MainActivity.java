@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private final int SELECT_PHOTO = 1;
 
     ImageView imageView;
-    FloatingActionButton imagePicker;
+    ImageButton imagePicker;
     Bitmap receivedImage;
 
     @Override
