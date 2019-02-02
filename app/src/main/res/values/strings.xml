@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">Image to Text Converter</string>
     <string name="prompt_text">Capture an image or select  from Gallery </string>
+    <string name="copy_button_hint">copy</string>
+    <string name="save_button_hint">save</string>
 </resources>
