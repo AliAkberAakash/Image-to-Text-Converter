@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        tools:visibility="gone"
+        android:background="@drawable/textview_border"
+        android:id="@+id/promptText"
+        android:layout_margin="8dp"
+        android:padding="4dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="@string/prompt_text"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        />
+
+    <ImageView
+        android:padding="4dp"
+        tools:visibility="visible"
+        android:background="@drawable/textview_border"
+        android:visibility="gone"
+        android:layout_weight="1"
+        tools:src="@drawable/test_image"
+        android:layout_margin="8dp"
+        android:id="@+id/image_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        />
+
+    <LinearLayout
+        android:weightSum="4"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:onClick="onCancelClick"
+            android:clickable="false"
+            android:background="@drawable/roundcorner"
+            android:layout_weight="1"
+            android:id="@+id/cancel"
+            android:layout_height="0dp"
+            android:layout_width="@dimen/buttonHeight"
+            android:src="@drawable/ic_cancel"
+            android:layout_margin="8dp"
+            />
+
+
+        <ImageButton
+            android:background="@drawable/roundcorner"
+            android:id="@+id/gallery"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="@dimen/buttonHeight"
+            android:src="@drawable/ic_gallery"
+            android:layout_margin="8dp"
+            android:onClick="onGalleryCLick"
+            />
+
+        <ImageButton
+            android:background="@drawable/roundcorner"
+            android:id="@+id/capture"
+            android:layout_weight="1"
+            android:layout_height="0dp"
+            android:layout_width="@dimen/buttonHeight"
+            android:src="@drawable/ic_capture"
+            android:layout_margin="8dp"
+            />
+
+
+        <ImageButton
+            android:clickable="false"
+            android:background="@drawable/roundcorner"
+            android:layout_weight="1"
+            android:id="@+id/next"
+            android:layout_height="0dp"
+            android:layout_width="@dimen/buttonHeight"
+            android:src="@drawable/ic_next"
+            android:layout_margin="8dp"
+            android:onClick="onNextClick"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
