@@ -6,12 +6,15 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import java.util.List;
 public class TextActivity extends AppCompatActivity {
 
     TextView textView;
+    Button saveButton;
 
     FirebaseVisionImage image;
     FirebaseVisionTextRecognizer detector;
@@ -41,7 +45,10 @@ public class TextActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_text);
 
+        saveButton = findViewById(R.id.saveButton);
         textView = findViewById(R.id.displayed_text);
+
+        buttonEffect(saveButton);
 
         Toast.makeText(this, "Processing the image", Toast.LENGTH_SHORT).show();
 
@@ -105,5 +112,27 @@ public class TextActivity extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("label", textView.getText().toString());
         clipboard.setPrimaryClip(clip);
 
+    }
+
+    //button click effect
+    public static void buttonEffect(View button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521,PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }
