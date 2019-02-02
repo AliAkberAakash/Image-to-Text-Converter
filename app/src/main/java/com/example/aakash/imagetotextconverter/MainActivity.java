@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -38,6 +39,24 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_container);
         cancelButton=findViewById(R.id.cancel);
         promptText = findViewById(R.id.promptText);
+
+        if(savedInstanceState!=null)
+        {
+            imageView.setVisibility(View.VISIBLE);
+            promptText.setVisibility(View.GONE);
+            cancelButton.setClickable(true);
+
+            //get the image from savedInstanceState
+            String filename = savedInstanceState.getString("imageResource");
+            try {
+                    FileInputStream is = this.openFileInput(filename);
+                    receivedImage = BitmapFactory.decodeStream(is);
+                    is.close();
+                    imageView.setImageBitmap(receivedImage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
@@ -99,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    String bitmapToFile (Bitmap image) throws Exception
+    String bitmapToFile (Bitmap image)
     {
         try {//Write file
             String filename = "bitmap.png";
@@ -141,14 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
         try
         {
-            Bundle b=new Bundle();
-            b.putString("imageResource", bitmapToFile(receivedImage));
+            outState.putString("imageResource", bitmapToFile(receivedImage));
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
-
 
 
     }
