@@ -39,6 +39,8 @@ public class TextActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.displayed_text);
 
+        Toast.makeText(this, "Processing the image", Toast.LENGTH_SHORT).show();
+
         //solution found from StackOverFlow
         Bitmap bitmap = null;
         String filename = getIntent().getStringExtra("image");
@@ -65,7 +67,7 @@ public class TextActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(FirebaseVisionText firebaseVisionText) {
                                     // Task completed successfully
-                                    Toast.makeText(TextActivity.this, "Detected some text", Toast.LENGTH_SHORT).show();
+                                   // Toast.makeText(TextActivity.this, "Detected some text", Toast.LENGTH_SHORT).show();
                                     Log.d(TAG, "onSuccess: Detected some text");
 
                                     //extract Text
