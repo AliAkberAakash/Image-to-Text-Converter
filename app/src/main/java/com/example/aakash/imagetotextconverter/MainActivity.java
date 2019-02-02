@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
     TextView promptText;
     ImageView imageView;
     ImageButton cancelButton;
+    ImageButton nextButton;
+    ImageButton galleryButton;
+    ImageButton cameraButton;
     Bitmap receivedImage;
 
     @Override
@@ -38,7 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.image_container);
         cancelButton=findViewById(R.id.cancel);
+        nextButton = findViewById(R.id.next);
+        cameraButton = findViewById(R.id.capture);
+        galleryButton = findViewById(R.id.gallery);
         promptText = findViewById(R.id.promptText);
+
+        buttonEffect(cancelButton);
+        buttonEffect(nextButton);
+        buttonEffect(cameraButton);
+        buttonEffect(galleryButton);
 
         if(savedInstanceState!=null)
         {
@@ -73,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
                         imageView.setVisibility(View.VISIBLE);
                         promptText.setVisibility(View.GONE);
                         imageView.setImageBitmap(selectedImage);
-                        cancelButton.setClickable(true);
                         receivedImage=selectedImage;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -147,11 +159,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCancelClick(View view) {
 
-        imageView.setVisibility(View.GONE);
-        promptText.setVisibility(View.VISIBLE);
-        imageView.setImageDrawable(null);
-        cancelButton.setClickable(false);
-
+        if(imageView.getDrawable()!=null) {
+            imageView.setVisibility(View.GONE);
+            promptText.setVisibility(View.VISIBLE);
+            imageView.setImageDrawable(null);
+        }
+        else
+        {
+            Toast.makeText(this, "No image is selected!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -167,7 +183,29 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
     }
+
+    //button click effect
+    public static void buttonEffect(View button){
+        button.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521,PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
 }
 
