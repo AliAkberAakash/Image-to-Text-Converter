@@ -1,5 +1,8 @@
 package com.example.aakash.imagetotextconverter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -8,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -92,5 +96,14 @@ public class TextActivity extends AppCompatActivity {
         {
             Log.d(TAG, "onCreate: Bitmap is empty");
         }
+    }
+
+    public void onSaveButtonClicked(View view) {
+
+        Toast.makeText(this, "Text has been copied to clipboard", Toast.LENGTH_SHORT).show();
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", textView.getText().toString());
+        clipboard.setPrimaryClip(clip);
+
     }
 }
