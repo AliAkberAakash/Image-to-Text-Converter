@@ -74,17 +74,21 @@ public class MainActivity extends AppCompatActivity {
 
         if(receivedImage!=null)
         {
-            //solution found from StackOverFlow
             //compress the bitmap and send to new activity
-            try {
-                //Pop intent
-                String filename = bitmapToFile(receivedImage);
-                Intent in1 = new Intent(this, TextActivity.class);
-                in1.putExtra("image", filename);
-                startActivity(in1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+                try
+                {
+                    //Pop intent
+                    String filename = bitmapToFile(receivedImage);
+                    Intent in1 = new Intent(this, TextActivity.class);
+                    in1.putExtra("image", filename);
+                    startActivity(in1);
+                }
+                catch (Exception e)
+                {
+                    Log.d(TAG, "onNextClick: failed to convert the bitmap");
+                    Toast.makeText(this, "Image is too large to be processed!", Toast.LENGTH_SHORT).show();
+                }
 
         }
         else
@@ -97,14 +101,19 @@ public class MainActivity extends AppCompatActivity {
 
     String bitmapToFile (Bitmap image) throws Exception
     {
-        //Write file
-        String filename = "bitmap.png";
-        FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
-        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        //Cleanup
-        stream.close();
+        try {//Write file
+            String filename = "bitmap.png";
+            FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            //Cleanup
+            stream.close();
+            return filename;
+        }
+        catch (Exception e) {
+        e.printStackTrace();
+         }
 
-        return filename;
+        return null;
     }
     
     //when gallery button is clicked
@@ -125,6 +134,23 @@ public class MainActivity extends AppCompatActivity {
         cancelButton.setClickable(false);
 
     }
-    
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        try
+        {
+            Bundle b=new Bundle();
+            b.putString("imageResource", bitmapToFile(receivedImage));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+
+
+    }
 }
 
