@@ -34,18 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageView = findViewById(R.id.image_container);
-        imagePicker = findViewById(R.id.gallery);
-
-        imagePicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //start image picker intent
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, SELECT_PHOTO);
-            }
-        });
-
     }
 
     @Override
@@ -79,13 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(receivedImage!=null)
         {
-            /*Intent intent = new Intent(this, TextActivity.class);
-            Bundle b = new Bundle();
-            b.putParcelable("receivedImage", receivedImage);
-            intent.putExtras(b);
-            startActivity(intent);*/
-
             //solution found from StackOverFlow
+            //compress the bitmap and send to new activity
             try {
                 //Write file
                 String filename = "bitmap.png";
@@ -111,11 +94,17 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No image was  selected!", Toast.LENGTH_SHORT).show();
         }
 
-
-
     }
 
 
+    //when gallery button is clicked
+    public void onGalleryCLick(View view) {
 
+        //start the imagePicker
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
+    }
 }
 
