@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,38 +9,62 @@
     tools:context=".MainActivity">
 
     <ImageView
+        android:layout_weight="1"
         tools:src="@drawable/test_image"
         android:padding="8dp"
         android:id="@+id/image_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_next"
-        android:layout_margin="4dp"
-        android:onClick="onNextClick"
-        />
+    <LinearLayout
+        android:weightSum="4"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:src="@drawable/ic_gallery"
-        android:layout_margin="4dp"
-        />
+        <ImageButton
+            android:background="#000"
+            android:layout_weight="1"
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonHeight"
+            android:src="@drawable/ic_cancel"
+            android:layout_margin="8dp" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start|bottom"
-        android:src="@drawable/ic_cancel"
-        android:layout_margin="4dp" />
 
-</android.support.design.widget.CoordinatorLayout>
+        <ImageButton
+            android:background="#000"
+            android:id="@+id/gallery"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonHeight"
+            android:src="@drawable/ic_gallery"
+            android:layout_margin="8dp"
+            />
+
+        <ImageButton
+            android:background="#000"
+            android:id="@+id/capture"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonHeight"
+            android:src="@drawable/ic_capture"
+            android:layout_margin="8dp"
+            />
+
+
+        <ImageButton
+            android:background="#000"
+            android:layout_weight="1"
+            android:id="@+id/next"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonHeight"
+            android:src="@drawable/ic_next"
+            android:layout_margin="8dp"
+            android:onClick="onNextClick"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
