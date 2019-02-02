@@ -25,15 +25,16 @@ public class MainActivity extends AppCompatActivity {
     private final int SELECT_PHOTO = 1;
 
     ImageView imageView;
-    ImageButton imagePicker;
+    ImageButton cancelButton;
     Bitmap receivedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         imageView = findViewById(R.id.image_container);
+        cancelButton=findViewById(R.id.cancel);
+
     }
 
     @Override
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         imageView.setImageBitmap(selectedImage);
+                        cancelButton.setClickable(true);
                         receivedImage=selectedImage;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -60,9 +62,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // When next button is clicked
+    //start TextActivity
     public void onNextClick(View view) {
-
-        //start TextActivity
 
 
         if(receivedImage!=null)
@@ -104,6 +105,13 @@ public class MainActivity extends AppCompatActivity {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, SELECT_PHOTO);
+
+    }
+
+    public void onCancelClick(View view) {
+
+        imageView.setImageDrawable(null);
+        cancelButton.setClickable(false);
 
     }
 }
