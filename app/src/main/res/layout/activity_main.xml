@@ -9,8 +9,11 @@
     tools:context=".MainActivity">
 
     <TextView
+        tools:visibility="gone"
+        android:background="@drawable/textview_border"
         android:id="@+id/promptText"
-        android:padding="10dp"
+        android:layout_margin="8dp"
+        android:padding="4dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -21,10 +24,13 @@
         />
 
     <ImageView
+        android:padding="4dp"
+        tools:visibility="visible"
+        android:background="@drawable/textview_border"
         android:visibility="gone"
         android:layout_weight="1"
         tools:src="@drawable/test_image"
-        android:padding="8dp"
+        android:layout_margin="8dp"
         android:id="@+id/image_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
