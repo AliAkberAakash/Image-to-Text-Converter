@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private  static final String TAG = MainActivity.class.toString();
     private final int SELECT_PHOTO = 1;
 
+    TextView promptText;
     ImageView imageView;
     ImageButton cancelButton;
     Bitmap receivedImage;
@@ -32,8 +34,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         imageView = findViewById(R.id.image_container);
         cancelButton=findViewById(R.id.cancel);
+        promptText = findViewById(R.id.promptText);
 
     }
 
@@ -47,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
                         final Uri imageUri = imageReturnedIntent.getData();
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        imageView.setVisibility(View.VISIBLE);
+                        promptText.setVisibility(View.GONE);
                         imageView.setImageBitmap(selectedImage);
                         cancelButton.setClickable(true);
                         receivedImage=selectedImage;
@@ -110,6 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCancelClick(View view) {
 
+        imageView.setVisibility(View.GONE);
+        promptText.setVisibility(View.VISIBLE);
         imageView.setImageDrawable(null);
         cancelButton.setClickable(false);
 
