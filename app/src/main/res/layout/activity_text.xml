@@ -9,16 +9,38 @@
     tools:context=".TextActivity">
 
     <ScrollView
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="0dp">
         <TextView
             android:id="@+id/displayed_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
-
     </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:onClick="onSaveButtonClicked"
+            android:textColor="#fff"
+            android:background="@drawable/roundcorner"
+            android:layout_weight="1"
+            android:text="@string/copy_button_hint"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonHeight" />
+        <Button
+            android:textColor="#fff"
+            android:background="@drawable/roundcorner"
+            android:layout_weight="1"
+            android:text="@string/save_button_hint"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/buttonHeight" />
+
+    </LinearLayout>
 
 
 </LinearLayout>
