@@ -25,6 +25,7 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/copyButton"
             android:onClick="onSaveButtonClicked"
             android:textColor="#fff"
             android:background="@drawable/roundcorner"
@@ -33,6 +34,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/buttonHeight" />
         <Button
+            android:id="@+id/saveButton"
             android:textColor="#fff"
             android:background="@drawable/roundcorner"
             android:layout_weight="1"
