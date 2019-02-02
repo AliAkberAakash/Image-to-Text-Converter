@@ -77,16 +77,8 @@ public class MainActivity extends AppCompatActivity {
             //solution found from StackOverFlow
             //compress the bitmap and send to new activity
             try {
-                //Write file
-                String filename = "bitmap.png";
-                FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
-                receivedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-                //Cleanup
-                stream.close();
-                //receivedImage.recycle();
-
                 //Pop intent
+                String filename = bitmapToFile(receivedImage);
                 Intent in1 = new Intent(this, TextActivity.class);
                 in1.putExtra("image", filename);
                 startActivity(in1);
@@ -103,7 +95,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    String bitmapToFile (Bitmap image) throws Exception
+    {
+        //Write file
+        String filename = "bitmap.png";
+        FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        //Cleanup
+        stream.close();
 
+        return filename;
+    }
+    
     //when gallery button is clicked
     public void onGalleryCLick(View view) {
 
@@ -122,5 +125,6 @@ public class MainActivity extends AppCompatActivity {
         cancelButton.setClickable(false);
 
     }
+    
 }
 
