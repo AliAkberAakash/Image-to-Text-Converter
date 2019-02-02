@@ -44,7 +44,6 @@
 
         <ImageButton
             android:onClick="onCancelClick"
-            android:clickable="false"
             android:background="@drawable/roundcorner"
             android:layout_weight="1"
             android:id="@+id/cancel"
