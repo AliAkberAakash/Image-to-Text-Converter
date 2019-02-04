@@ -3,4 +3,5 @@
     <string name="prompt_text">Capture an image or select  from Gallery </string>
     <string name="copy_button_hint">copy</string>
     <string name="save_button_hint">save</string>
+    <string name="text_not_detected_msg">Could not detect any text</string>
 </resources>
