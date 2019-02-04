@@ -8,7 +8,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
@@ -35,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     ImageButton nextButton;
     ImageButton galleryButton;
     ImageButton cameraButton;
-    Bitmap receivedImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +51,19 @@ public class MainActivity extends AppCompatActivity {
         buttonEffect(cameraButton);
         buttonEffect(galleryButton);
 
+        //check if there exists a previous state
         if(savedInstanceState!=null)
         {
-            //get the image from savedInstanceState
-            String filename = savedInstanceState.getString("imageResource");
+
             try {
+                    //get the file name from savedInstanceState
+                    String filename = savedInstanceState.getString("imageResource");
                     FileInputStream is = this.openFileInput(filename);
-                    receivedImage = BitmapFactory.decodeStream(is);
+                    Bitmap receivedImage = BitmapFactory.decodeStream(is);
                     is.close();
                     imageView.setImageBitmap(receivedImage);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -72,27 +72,35 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
-        /*else {
-            imageView.setVisibility(View.GONE);
-            promptText.setVisibility(View.VISIBLE);
-        }*/
 
     }
 
+
+    //After the user selects or captures an image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         switch(requestCode) {
+            //check if photo was selected from gallery
             case SELECT_PHOTO:
+                //check if operation was successful
                 if(resultCode == RESULT_OK){
                     try {
-                        final Uri imageUri = imageReturnedIntent.getData();
-                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                        imageView.setVisibility(View.VISIBLE);
-                        promptText.setVisibility(View.GONE);
-                        imageView.setImageBitmap(selectedImage);
-                        receivedImage=selectedImage;
+                        //check if the returned image is not null
+                        if(imageReturnedIntent!=null) {
+                            final Uri imageUri = imageReturnedIntent.getData();
+                            final InputStream imageStream;
+                            //check if the image uri is not null
+                            if (imageUri != null) {
+                                imageStream = getContentResolver().openInputStream(imageUri);
+                                final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); //convert to bitmap
+                                //toggle visibility of imageView and promptText
+                                imageView.setVisibility(View.VISIBLE);
+                                promptText.setVisibility(View.GONE);
+                                imageView.setImageBitmap(selectedImage);
+                            }
+
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.d(TAG, "onActivityResult: Failed to load image");
@@ -105,17 +113,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // When next button is clicked
+    //compress the bitmap and send to new activity
     //start TextActivity
     public void onNextClick(View view) {
 
 
-        if(receivedImage!=null)
+        if(imageView.getDrawable()!=null)
         {
-            //compress the bitmap and send to new activity
-
                 try
                 {
                     //Pop intent
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) imageView.getDrawable();
+                    Bitmap receivedImage = bitmapDrawable.getBitmap();
                     String filename = bitmapToFile(receivedImage);
                     Intent in1 = new Intent(this, TextActivity.class);
                     in1.putExtra("image", filename);
@@ -136,9 +145,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //save the bitmap in a file and return the file name
     String bitmapToFile (Bitmap image)
     {
-        try {//Write file
+        try {
+            //Write file
             String filename = "bitmap.png";
             FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
             image.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -147,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
             return filename;
         }
         catch (Exception e) {
-        e.printStackTrace();
+            e.printStackTrace();
          }
 
         return null;
@@ -163,30 +174,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //when user clicks cancel button
     public void onCancelClick(View view) {
 
+        //if imageView has an image set, then make it invisible and show the promptText
         if(imageView.getDrawable()!=null) {
             imageView.setVisibility(View.GONE);
             promptText.setVisibility(View.VISIBLE);
-            //imageView.setImageDrawable(null);
         }
         else
         {
+            //if no image is selected show a prompt to select image
             Toast.makeText(this, "No image is selected!", Toast.LENGTH_SHORT).show();
         }
     }
-    
+
+    //save the state of the views
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         try
         {
+            //if the drawable is not null, get it as bitmap, store it in a file and push the filename onto the bundle
             if(imageView.getDrawable()!=null) {
                 BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
                 Bitmap bitmap = drawable.getBitmap();
                 outState.putString("imageResource", bitmapToFile(bitmap));
             }
+            //push the state of imageView and promptText to the bundle
             outState.putInt("imageViewVisibility", imageView.getVisibility());
             outState.putInt("promptTextVisibility", promptText.getVisibility());
         }
@@ -197,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //button click effect
+    //button click effect found from StackOverFlow
     public static void buttonEffect(View button){
         button.setOnTouchListener(new View.OnTouchListener() {
 
