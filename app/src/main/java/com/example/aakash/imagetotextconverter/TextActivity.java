@@ -5,9 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,15 +23,16 @@ import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
-import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
 import java.io.FileInputStream;
-import java.util.List;
+
 
 public class TextActivity extends AppCompatActivity {
 
     TextView textView;
     Button saveButton;
+    Button copyButton;
+    Boolean textViewState;
 
     FirebaseVisionImage image;
     FirebaseVisionTextRecognizer detector;
@@ -46,9 +45,13 @@ public class TextActivity extends AppCompatActivity {
         setContentView(R.layout.activity_text);
 
         saveButton = findViewById(R.id.saveButton);
+        copyButton = findViewById(R.id.copyButton);
         textView = findViewById(R.id.displayed_text);
 
         buttonEffect(saveButton);
+        buttonEffect(copyButton);
+
+        textViewState = false;
 
         Toast.makeText(this, "Processing the image", Toast.LENGTH_SHORT).show();
 
@@ -69,8 +72,6 @@ public class TextActivity extends AppCompatActivity {
             detector = FirebaseVision.getInstance()
                     .getOnDeviceTextRecognizer();
 
-            StringBuilder sb = new StringBuilder();
-
             //start processing the image
             Task<FirebaseVisionText> result =
                     detector.processImage(image)
@@ -78,12 +79,18 @@ public class TextActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(FirebaseVisionText firebaseVisionText) {
                                     // Task completed successfully
-                                   // Toast.makeText(TextActivity.this, "Detected some text", Toast.LENGTH_SHORT).show();
                                     Log.d(TAG, "onSuccess: Detected some text");
 
                                     //extract Text
                                     String resultText = firebaseVisionText.getText();
-                                    textView.setText(resultText);
+                                    if(resultText.length()>0) {
+                                        textView.setText(resultText);
+                                        textViewState=true;
+                                    }
+                                    else {
+                                        textView.setText(getString(R.string.text_not_detected_msg));
+                                        textViewState=false;
+                                    }
                                 }
                             })
                             .addOnFailureListener(
@@ -107,10 +114,7 @@ public class TextActivity extends AppCompatActivity {
 
     public void onSaveButtonClicked(View view) {
 
-        Toast.makeText(this, "Text has been copied to clipboard", Toast.LENGTH_SHORT).show();
-        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clip = ClipData.newPlainText("label", textView.getText().toString());
-        clipboard.setPrimaryClip(clip);
+
 
     }
 
@@ -134,5 +138,18 @@ public class TextActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void onCopyButtonClicked(View view) {
+        if(textViewState) {
+            Toast.makeText(this, "Text has been copied to clipboard", Toast.LENGTH_SHORT).show();
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("label", textView.getText().toString());
+            clipboard.setPrimaryClip(clip);
+        }
+        else
+        {
+            Toast.makeText(this, "No text was detected", Toast.LENGTH_SHORT).show();
+        }
     }
 }
