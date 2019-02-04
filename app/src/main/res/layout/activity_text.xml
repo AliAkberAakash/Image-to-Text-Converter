@@ -27,7 +27,7 @@
         <Button
             android:layout_margin="8dp"
             android:id="@+id/copyButton"
-            android:onClick="onSaveButtonClicked"
+            android:onClick="onCopyButtonClicked"
             android:textColor="#fff"
             android:background="@drawable/roundcorner"
             android:layout_weight="1"
@@ -38,6 +38,7 @@
             android:layout_margin="8dp"
             android:id="@+id/saveButton"
             android:textColor="#fff"
+            android:onClick="onSaveButtonClicked"
             android:background="@drawable/roundcorner"
             android:layout_weight="1"
             android:text="@string/save_button_hint"
