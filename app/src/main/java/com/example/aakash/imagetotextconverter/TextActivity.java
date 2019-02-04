@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -89,6 +91,8 @@ public class TextActivity extends AppCompatActivity {
                                     }
                                     else {
                                         textView.setText(getString(R.string.text_not_detected_msg));
+                                        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                                        //textView.setTextSize(R.dimen.text_size);
                                         textViewState=false;
                                     }
                                 }
