@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             imageView.setVisibility(savedInstanceState.getInt("imageViewVisibility"));
             promptText.setVisibility(savedInstanceState.getInt("promptTextVisibility"));
 
+
         }
         /*else {
             imageView.setVisibility(View.GONE);
@@ -174,16 +175,18 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No image is selected!", Toast.LENGTH_SHORT).show();
         }
     }
-
+    
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         try
         {
-            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
-            outState.putString("imageResource", bitmapToFile(bitmap));
+            if(imageView.getDrawable()!=null) {
+                BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+                outState.putString("imageResource", bitmapToFile(bitmap));
+            }
             outState.putInt("imageViewVisibility", imageView.getVisibility());
             outState.putInt("promptTextVisibility", promptText.getVisibility());
         }
