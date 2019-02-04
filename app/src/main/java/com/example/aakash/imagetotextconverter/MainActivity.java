@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private  static final String TAG = MainActivity.class.toString();
     private final int SELECT_PHOTO = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
 
     TextView promptText;
     ImageView imageView;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         galleryButton = findViewById(R.id.gallery);
         promptText = findViewById(R.id.promptText);
 
+        //give click effects to button
         buttonEffect(cancelButton);
         buttonEffect(nextButton);
         buttonEffect(cameraButton);
@@ -95,8 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                 imageStream = getContentResolver().openInputStream(imageUri);
                                 final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream); //convert to bitmap
                                 //toggle visibility of imageView and promptText
-                                imageView.setVisibility(View.VISIBLE);
-                                promptText.setVisibility(View.GONE);
+                                toggleViewVisibility();
                                 imageView.setImageBitmap(selectedImage);
                             }
 
@@ -105,6 +107,16 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                         Log.d(TAG, "onActivityResult: Failed to load image");
                         Toast.makeText(this, "Failed to load Image", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            //check if an image was captured by camera
+            case REQUEST_IMAGE_CAPTURE:
+                if (resultCode == RESULT_OK && imageReturnedIntent!=null) {
+                    Bundle extras = imageReturnedIntent.getExtras();
+                    if(extras!=null) {
+                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+                        toggleViewVisibility();
+                        imageView.setImageBitmap(imageBitmap);
                     }
                 }
         }
@@ -145,25 +157,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //save the bitmap in a file and return the file name
-    String bitmapToFile (Bitmap image)
-    {
-        try {
-            //Write file
-            String filename = "bitmap.png";
-            FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
-            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            //Cleanup
-            stream.close();
-            return filename;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-         }
-
-        return null;
-    }
-    
     //when gallery button is clicked
     public void onGalleryCLick(View view) {
 
@@ -174,13 +167,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //when user clicks cancel button
+    //when capture button is clicked
+    public void onCaptureClick(View view) {
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    //when cancel button is clicked
     public void onCancelClick(View view) {
 
         //if imageView has an image set, then make it invisible and show the promptText
         if(imageView.getDrawable()!=null) {
-            imageView.setVisibility(View.GONE);
-            promptText.setVisibility(View.VISIBLE);
+            toggleViewVisibility();
         }
         else
         {
@@ -233,6 +234,41 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    //save the bitmap in a file and return the file name
+    String bitmapToFile (Bitmap image)
+    {
+        try {
+            //Write file
+            String filename = "bitmap.png";
+            FileOutputStream stream = this.openFileOutput(filename, Context.MODE_PRIVATE);
+            image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            //Cleanup
+            stream.close();
+            return filename;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    //toggle the Visibility of imageView and promptText
+    public void toggleViewVisibility()
+    {
+        //toggle for imageView
+        if(imageView.getVisibility() == View.GONE)
+            imageView.setVisibility(View.VISIBLE);
+        else
+            imageView.setVisibility(View.GONE);
+
+        //toggle for promptText
+        if(promptText.getVisibility() == View.VISIBLE)
+            promptText.setVisibility(View.GONE);
+        else
+            promptText.setVisibility(View.VISIBLE);
     }
 
 }
