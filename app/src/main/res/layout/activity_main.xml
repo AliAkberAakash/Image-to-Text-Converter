@@ -72,6 +72,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/buttonHeight"
             android:src="@drawable/ic_capture"
+            android:onClick="onCaptureClick"
             android:layout_margin="8dp"
             />
 
