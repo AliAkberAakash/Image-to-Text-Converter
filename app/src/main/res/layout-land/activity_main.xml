@@ -55,6 +55,7 @@
             />
 
         <ImageButton
+            android:onClick="onCaptureClick"
             android:background="@drawable/roundcorner"
             android:id="@+id/capture"
             android:layout_weight="1"
