@@ -54,7 +54,13 @@ public class TextActivity extends AppCompatActivity {
         buttonEffect(copyButton);
 
         textViewState = false;
+        processImage();
+    }
 
+    //function to process the image
+    private void processImage()
+    {
+        //todo: replace with a progressbar
         Toast.makeText(this, "Processing the image", Toast.LENGTH_SHORT).show();
 
         //solution found from StackOverFlow
@@ -68,6 +74,7 @@ public class TextActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //if image is received start processing it
         if(bitmap!=null)
         {
             image = FirebaseVisionImage.fromBitmap(bitmap);
@@ -92,7 +99,6 @@ public class TextActivity extends AppCompatActivity {
                                     else {
                                         textView.setText(getString(R.string.text_not_detected_msg));
                                         textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                        //textView.setTextSize(R.dimen.text_size);
                                         textViewState=false;
                                     }
                                 }
@@ -112,7 +118,7 @@ public class TextActivity extends AppCompatActivity {
         }
         else
         {
-            Log.d(TAG, "onCreate: Bitmap is empty");
+            Log.d(TAG, "processImage: Bitmap is empty");
         }
     }
 
